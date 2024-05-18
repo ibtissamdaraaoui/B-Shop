@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>Index page</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+</head>
+
+<body>
+<div class="container">
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Writer Name</th>
+            <th>Books </th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="writer:${writers}" >
+            <td th:text="${writer.getName()}"></td>
+           <!-- <td th:text="${writer.getBooks()}"></td>-->
+
+
+        </tr>
+        </tbody>
+
+
+    </table><a href="/addWriter" class="btn btn-info">Add a new Writer</a>
+</div>
+
+</body>
+</html>
+
+
+
+
+

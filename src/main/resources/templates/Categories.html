@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.com"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="template" lang="en">>
+
+<head>
+
+
+    <title>Categories</title>
+
+
+</head>
+
+<body class="sub_page">
+<div  class="container" layout:fragment="content">
+    <div class="hero_area">
+
+
+
+        <section class="furniture_section layout_padding">
+            <div class="container">
+                <div class="heading_container">
+                    <h2>
+                        Our Categories
+                    </h2>
+                    <p>
+                        B-SHOP, where books come alive! Dive into our diverse collection curated with passion and purpose.                </p>
+                </div>
+                <div class="row">
+
+                    <div class="col-md-6 col-lg-4" th:each="categorie:${listeCategories}">
+                        <div class="box">
+                            <div class="img-box">
+                                <img th:src="'data:image/jpeg;base64,' + ${categorie.imgP}"  alt="Categ">
+                            </div>
+                            <div class="detail-box">
+                                <h5 class="product__title" th:text="${categorie.getName()}"></h5>
+                                <div class="price_box">
+
+                                    <a th:href="@{detailCategorie(id=${categorie.getId()})}">
+                                        <h5>Discover More</h5>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+
+
+    <!-- jQery -->
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <!-- bootstrap js -->
+    <script src="js/bootstrap.js"></script>
+    <!-- custom js -->
+    <script src="js/custom.js"></script>
+    <!-- Google Map -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap">
+    </script>
+    <!-- End Google Map -->
+</div>
+</body>
+
+</html>

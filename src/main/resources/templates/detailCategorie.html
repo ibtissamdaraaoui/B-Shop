@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.com"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="template" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>Category Detail</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+</head>
+<body>
+<div layout:fragment="content">
+
+
+    <section class="furniture_section layout_padding">
+        <div class="container">
+            <div class="heading_container">
+                <h2 th:text="${detailcategorie.getName()}"></h2>
+
+            </div>
+            <div class="row">
+
+                <div class="col-md-6 col-lg-4" th:each="categ:${detailcategorie.books}" >
+                    <div class="box">
+                        <div class="img-box">
+                            <img th:src="'data:image/jpeg;base64,' + ${categ.imgP}" alt="BookImage" height="302" >
+                        </div>
+                        <div class="detail-box">
+                            <h5 class="product__title" th:text="${categ.getName()}"></h5>
+                            <div class="price_box">
+                                <a th:href="@{detailBook(id=${categ.getId()})}" >
+                                    <h5>Detail View</h5>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+    </section>
+
+
+
+</div>
+</body>
+</html>
