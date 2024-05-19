@@ -50,7 +50,14 @@ public class CategorieService implements CategorieManager{
             return null;
         }
     }
-
+    @Override
+    public Categorie getCategorieByName(String CategorieName){
+        return categorieRepository.findByName(CategorieName);
+    }
+    @Override
+    public Categorie getCategorieId(Integer id){
+        return categorieRepository.findById(id).orElse(null);
+    }
 
 
 }

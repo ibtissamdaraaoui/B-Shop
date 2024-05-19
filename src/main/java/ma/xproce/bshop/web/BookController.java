@@ -194,7 +194,9 @@ public class BookController {
         book.setName(name);
         book.setDescription(description);
         List<Categorie> currentCategories = (List<Categorie>) book.getCategories();
+
         List<Categorie> selectedCategories = categorieManager.getCategorieById(categories);
+
         if (!book.getCategories().containsAll(selectedCategories)){
             book.setCategories(selectedCategories);
             for (Categorie category : selectedCategories) {
@@ -203,11 +205,19 @@ public class BookController {
             }
         }
         Writer existingWriter = writerManager.getWriterByName(writer);
+        if(existingWriter!=null){
         existingWriter.setId(existingWriter.getId());
         existingWriter.setName(writer);
         writerManager.addWriter(existingWriter);
-        book.setWriter(existingWriter);
-        bookManager.addBook(book);
+            book.setWriter(existingWriter);
+            bookManager.addBook(book);}
+        else{
+            Writer writer1 =new Writer();
+            writer1.setName(writer);
+            writerManager.addWriter(writer1);
+            book.setWriter(writer1);
+            bookManager.addBook(book);
+        }
 
 
         return "redirect:/BookList";

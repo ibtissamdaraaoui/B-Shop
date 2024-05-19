@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.com"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="template" lang="en">>
+      layout:decorate="template" lang="en">
 
 <head>
-
-
+    <meta charset="UTF-8">
     <title>Categories</title>
-
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
 </head>
 
@@ -31,24 +31,28 @@
                     <div class="col-md-6 col-lg-4" th:each="categorie:${listeCategories}">
                         <div class="box">
                             <div class="img-box">
-                                <img th:src="'data:image/jpeg;base64,' + ${categorie.imgP}"  alt="Categ">
+                                <img th:src="'data:image/jpeg;base64,' + ${categorie.imgP}" alt="Categ">
                             </div>
                             <div class="detail-box">
                                 <h5 class="product__title" th:text="${categorie.getName()}"></h5>
                                 <div class="price_box">
-
                                     <a th:href="@{detailCategorie(id=${categorie.getId()})}">
                                         <h5>Discover More</h5>
                                     </a>
+                                    <a  th:if="${#authorization.expression('hasRole(''ADMIN'')')}" th:href="@{editCategorie(id=${categorie.getId()})}"><i class="bi bi-pencil-square"></i></a>
+
                                 </div>
+
                             </div>
                         </div>
                     </div>
 
 
 
+
+
                 </div>
-            </div>
+            </div><a th:if="${#authorization.expression('hasRole(''ADMIN'')')}" href="/addCategorie" class="btn btn-info">Add a new Categorie</a>
         </section>
 
     </div>
