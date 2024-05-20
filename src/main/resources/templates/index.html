@@ -129,35 +129,41 @@
 
     <!-- Categorie section -->
 
-    <section class="blog_section layout_padding">
+    <section class="furniture_section layout_padding">
         <div class="container">
             <div class="heading_container">
                 <h2>
                     Some of Our Categories
                 </h2>
+
             </div>
             <div class="row">
-                <div class="col-md-6 col-lg-4 mx-auto" th:each="categorie:${Categ}">
+
+                <div class="col-md-6 col-lg-4" th:each="categorie:${Categ}">
                     <div class="box">
                         <div class="img-box">
                             <img th:src="'data:image/*;base64,' + ${categorie.imgP}"  alt="Categ">
                         </div>
                         <div class="detail-box">
-                            <h5 th:text="${categorie.getName()}"></h5>
+                            <div class="detail-box">
+                                <h5 th:text="${categorie.getName()}"></h5>
 
-                            <a th:href="@{detailCategorie(id=${categorie.getId()})}">
-                                Read More
-                            </a>
+                                <a th:href="@{detailCategorie(id=${categorie.getId()})}">
+                                    Read More
+                                </a>
+                            </div>
+
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
+
     </section>
 
 
-
-    <!-- end Categorie section -->
+     <!--end Categorie section -->
 
     <!-- Writer section -->
 

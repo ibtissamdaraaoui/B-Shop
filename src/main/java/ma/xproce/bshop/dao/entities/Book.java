@@ -22,6 +22,8 @@ public class Book {
     @Lob
     @Column(columnDefinition = "MEDIUMBLOB")
     private String imgP;
+    private String filePath;
+
 
 
 

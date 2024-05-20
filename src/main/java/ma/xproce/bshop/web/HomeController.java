@@ -21,8 +21,6 @@ public class HomeController {
 
     @Autowired
     private BookManager bookManager;
-    @Autowired
-    private BookRepository bookRepository;
 
     @Autowired
     private WriterManager writerManager;
@@ -33,9 +31,9 @@ public class HomeController {
     public String index(Model model) {
         List<Writer> writers =writerManager.getallWriters();
         model.addAttribute("Writers",writers);
-        List<Book> books =bookManager.getBooksById(List.of(51,52,53));
+        List<Book> books =bookManager.getBooksById(List.of(59,61,63));
         model.addAttribute("Books",books);
-        List<Categorie> categories = categorieManager.getCategorieById(List.of(1,2,10));
+        List<Categorie> categories = categorieManager.getCategorieById(List.of(25,29,32));
         model.addAttribute("Categ",categories);
         return "index";
     }

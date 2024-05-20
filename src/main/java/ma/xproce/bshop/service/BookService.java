@@ -29,11 +29,11 @@ public class BookService implements BookManager{
 
     @Override
     public Book findById(Integer id) {
-        return bookRepository.findById(id).get();
+        return bookRepository.findById(id).orElse(null);
     }
     @Override
     public Book getBookById(Integer id) {
-        return bookRepository.findById(id).get();
+        return bookRepository.findById(id).orElse(null);
     }
 
     @Override

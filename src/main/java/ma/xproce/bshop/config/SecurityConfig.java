@@ -23,8 +23,9 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(requests -> requests
+
                         .requestMatchers("/registration", "/login", "/css/**").permitAll() // Allow public access to registration, login, and CSS
-                        .requestMatchers("/AddBook", "/editBook").hasRole("ADMIN") // Restrict access to these endpoints to ADMIN role
+                        .requestMatchers("/addBook", "/editBook","/addCategorie","/editBook").hasRole("ADMIN") // Restrict access to these endpoints to ADMIN role
                         .anyRequest().authenticated() // Require authentication for any other request
                 )
                 .formLogin(form -> form
@@ -32,7 +33,7 @@ public class SecurityConfig {
                         .defaultSuccessUrl("/", true)
                         .permitAll()
                 )
-                .logout(LogoutConfigurer::permitAll);
+                .logout((logout) -> logout.logoutSuccessUrl("/login").permitAll());
 
         return http.build();
     }

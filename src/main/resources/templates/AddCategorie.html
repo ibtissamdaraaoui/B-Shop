@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.com"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="template" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Categorie</title>
+</head>
+<body>
+<div class="container" layout:fragment="content">
+
+    <section class="contact_section  long_section" >
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form_container">
+                        <div class="heading_container">
+                            <h2>
+                                Add Categorie
+                            </h2>
+                        </div>
+                        <form action="addCategorie" method="Post" enctype="multipart/form-data">
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                            <div>
+                                <input type="text" class="form-control" name="name" placeholder="add a Categorie name"/>
+                            </div>
+                            <div>
+                                <label class="col-form-label">Image <span class="text-danger">*</span></label>
+                                <input class="form-control" type="file" name="file" id="customFile" for="customFile" />
+                            </div>
+
+                            <div class="btn_box" type="submit">
+                                <button>
+                                    Add Categorie
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </section>
+</div>
+
+</body>
+</html>

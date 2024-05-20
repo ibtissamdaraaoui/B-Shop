@@ -2,21 +2,37 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Register</title>
+    <link href="/css/login.css" rel="stylesheet" />
 </head>
 <body>
-<h1>Register</h1>
-<form th:action="@{/registration}" method="post" th:object="${user}">
-    <div>
-        <label for="username">Username</label>
-        <input type="text" id="username" th:field="*{username}" required>
+
+
+<section class="user">
+
+
+    <div class="login-container">
+        <form action="" class="form-login" th:action="@{/registration}" method="post" th:object="${user}">
+            <ul class="login-nav">
+                <li class="login-nav__item active">
+                    <a href="/login">Sign In</a>
+                </li>
+                <li class="login-nav__item">
+                    <a href="register.html">Sign Up</a>
+                </li>
+            </ul>
+            <label for="username" class="login__label">
+                Username
+            </label>
+            <input type="text" placeholder="Username"  id="username" class="login__input" th:field="*{username}" required  />
+            <label for="password" class="login__label">
+                Password
+            </label>
+            <input  class="login__input" type="password"  placeholder="Password" id="password" th:field="*{password}" required/>
+
+            <button class="login__submit" type="submit" >Sign up</button>
+        </form>
     </div>
-    <div>
-        <label for="password">Password</label>
-        <input type="password" id="password" th:field="*{password}" required>
-    </div>
-    <div>
-        <button type="submit">Register</button>
-    </div>
-</form>
+
+</section>
 </body>
 </html>

@@ -1,27 +1,35 @@
 package ma.xproce.bshop.web;
-
-import jdk.jfr.Category;
-import lombok.Data;
+ // Import pour l'annotation @Resource de Jakarta EE
 import ma.xproce.bshop.dao.entities.Book;
 import ma.xproce.bshop.dao.entities.Categorie;
 import ma.xproce.bshop.dao.entities.Writer;
 import ma.xproce.bshop.dao.repositories.BookRepository;
 import ma.xproce.bshop.service.BookManager;
 import ma.xproce.bshop.service.CategorieManager;
+import ma.xproce.bshop.service.FileUploadManager;
 import ma.xproce.bshop.service.WriterManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource; // Import pour ByteArrayResource de Spring
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+
 import java.io.IOException;
-import java.util.*;
+import java.util.Base64;
+import java.util.List;
 
 @Controller
 public class BookController {
@@ -34,8 +42,14 @@ public class BookController {
     private WriterManager writerManager;
     @Autowired
     private CategorieManager categorieManager;
+    @Autowired
+    private FileUploadManager fileUploadManager;
 
 
+
+
+
+    private static final Logger logger = LoggerFactory.getLogger(BookController.class);
 
 
 
@@ -74,6 +88,7 @@ public class BookController {
 
     @PostMapping("addBook")
     public String addBookPost(Model model , @RequestParam("file") MultipartFile file
+            , @RequestParam("contentFile") MultipartFile contentFile
             ,@RequestParam(name="name") String name
             ,@RequestParam(name="description") String description
             , @RequestParam(name="writer") String writer
@@ -91,9 +106,16 @@ public class BookController {
             }
             try {
                 book.setImgP(Base64.getEncoder().encodeToString(file.getBytes()));
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+            String contentFileName = fileUploadManager.uploadFile(contentFile);
+            if (contentFileName == null) {
+                return "redirect:/addBook";
+            }
+            book.setFilePath(contentFileName);
 
 
 
@@ -112,8 +134,7 @@ public class BookController {
             }
 
             return "redirect:/BookList?success";
-            //model.addAttribute("errorMessage", "L'écrivain existe déjà dans la base de données.");
-           // return "redirect:/addBook?error"; // Remplacer par le nom de la vue de la page d'erreur
+
         }
         else {
             Book book = new Book();
@@ -128,7 +149,17 @@ public class BookController {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            // Debugging message to check if file is received
+            logger.info("Received file: {}", file.getOriginalFilename());
 
+            // Upload the file and get the generated file name
+            String contentFileName = fileUploadManager.uploadFile(contentFile);
+
+            // Debugging message to check generated file name
+            logger.info("Generated file name: {}", contentFileName);
+
+            // Associate the file name with the book
+            book.setFilePath(contentFileName);
 
             Writer writer1 = new Writer();
             writer1.setName(writer);
@@ -194,7 +225,9 @@ public class BookController {
         book.setName(name);
         book.setDescription(description);
         List<Categorie> currentCategories = (List<Categorie>) book.getCategories();
+
         List<Categorie> selectedCategories = categorieManager.getCategorieById(categories);
+
         if (!book.getCategories().containsAll(selectedCategories)){
             book.setCategories(selectedCategories);
             for (Categorie category : selectedCategories) {
@@ -203,15 +236,47 @@ public class BookController {
             }
         }
         Writer existingWriter = writerManager.getWriterByName(writer);
+        if(existingWriter!=null){
         existingWriter.setId(existingWriter.getId());
         existingWriter.setName(writer);
         writerManager.addWriter(existingWriter);
-        book.setWriter(existingWriter);
-        bookManager.addBook(book);
+            book.setWriter(existingWriter);
+            bookManager.addBook(book);}
+        else{
+            Writer writer1 =new Writer();
+            writer1.setName(writer);
+            writerManager.addWriter(writer1);
+            book.setWriter(writer1);
+            bookManager.addBook(book);
+        }
 
 
         return "redirect:/BookList";
     }
+
+    @GetMapping("/downloadFile/{id}")
+    public ResponseEntity<Resource> downloadFile(@PathVariable Integer id) {
+        Book book = bookManager.getBookById(id);
+        if (book == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        String filePath = book.getFilePath();
+        if (filePath == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Resource fileResource = fileUploadManager.loadFileAsResource(filePath);
+        if (fileResource == null || !fileResource.exists() || !fileResource.isReadable()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileResource.getFilename() + "\"")
+                .body(fileResource);
+    }
+
+
 
 
 

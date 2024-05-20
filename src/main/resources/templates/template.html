@@ -7,7 +7,7 @@
     <!-- Mobile Metas -->
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <!-- Site Metas -->
-    <link rel="icon" href="images/fevicon.png" type="image/gif" />
+    <link rel="icon" href="images/favicon.png" type="image/gif" />
     <meta name="keywords" content="" />
     <meta name="description" content="" />
     <meta name="author" content="" />
@@ -63,12 +63,17 @@
                     </ul>
                 </div>
                 <div class="quote_btn-container">
-                    <a th:href="@{/login}">
-                        <i class="fa fa-user" aria-hidden="true"></i>
+
+                    <a href="/login">
+                    <span class="icon">
+                        <i class="fa-solid fa-arrow-right-from-bracket-black"></i>
+                     </span>
+
                     </a>
 
+
                     <form class="search_form" method="get" th:action="@{BookList}" >
-                        <input type="text" class="form-control"  name="search"  width="300px" th:value="${keyword}"  placeholder="Search here...">
+                        <input type="text" class="form-control"  name="search"  style="margin-right:90px " th:value="${keyword}"  placeholder="Search here...">
                         <button class="btn btn-primary" type="submit">
 
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"

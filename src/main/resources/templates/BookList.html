@@ -17,76 +17,7 @@
         <div class="p-3 mb-2 bg-success text-white" th:if="${param.success}">Book added with success</div>
 
 
-        <!--<table class="table table-striped">
-            <thead>
-            <tr>
-                <th>Book Name</th>
-                <th>Book Writer</th>
-                <th>Book Categorie</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="book:${BookList}" >
-                <img th:src="'data:image/jpeg;base64,' + ${book.imgP}" alt="BookImage">
-                <td th:text="${book.getName()}"></td>
 
-                <td th:text="${book.writer.getName()}"></td>
-                <td th:each="categorie:${book.categories}">
-                  <li th:text="${categorie.getName()}"></li>
-                </td>
-                <td><a th:href="@{deleteBook(id=${book.getId()})}"><i class="bi bi-trash3"></i></a></td>
-                <td><a th:href="@{editBook(id=${book.getId()})}"><i class="bi bi-pencil-square"></i></a></td>
-           </tr>
-            </tbody>
-
-        </table><a href="/addBook" class="btn btn-info">Add a new Book</a>-->
-
-        <!------------------------------------------------------------------------
-        <div class="grid-item product post-4171 type-product status-publish has-post-thumbnail product_cat-actions product_cat-best-seller product_tag-adventure product_tag-battle  outofstock shipping-taxable purchasable product-type-simple">
-            <div class="product__inner" th:each="book:${BookList}">
-
-                <figure class="product__image">
-
-                    <span class="intrinsic-ratio" style="padding-bottom:136.9696969697%">
-                        <img th:src="'data:image/*;base64,' + ${book.imgP}" alt="BookImage" height="302" >
-                    </span>
-
-                    <div class="product__action">
-                        <a rel="nofollow" th:href="@{detailBook(id=${book.getId()})}" data-quantity="1"  data-product_sku="JCK61326" class="button product_type_simple">
-                            <i class="simple-icon-bag"></i><i class="dripicons-plus"></i>
-                            <span class="button-label">Read more</span>
-                        </a>
-                    </div>
-                </figure>
-
-                <div class="product__detail">
-                    <h3 class="product__title" th:text="${book.getName()}"></h3>
-
-                    <div class="product__price"><span class="woocommerce-Price-amount amount">
-                        <span class="woocommerce-Price-currencySymbol"><a th:href="@{editBook(id=${book.getId()})}"><i class="bi bi-pencil-square"></i></a></span>
-                    </span></div>
-                    <div class="product__price"><span class="woocommerce-Price-amount amount">
-                        <span class="woocommerce-Price-currencySymbol"><a th:href="@{deleteBook(id=${book.getId()})}"><i class="bi bi-trash3"></i></a></span>
-                    </span></div>
-
-
-                </div>
-            </div>
-            <div class="product__price"><span class="woocommerce-Price-amount amount"><bdi>
-                        <span class="woocommerce-Price-currencySymbol"><a href="/addBook" class="btn btn-info">Add a new Book</a></span>
-            </div>
-
-            <div class="container" >
-                <ul class="nav nav-pills">
-                    <li class="nav-item me-2" th:each="p, stat: ${pages}">
-                        <a th:class="${stat.index} == ${page} ? 'btn btn-primary' : 'btn btn-outline-primary'"
-                           th:text="${stat.index}" th:href="@{BookList(page=${stat.index},search=${keyword})}"></a>
-                    </li>
-                </ul>
-            </div>
-
-        </div>
-    </div>----------------------->
         <!-- books section -->
 
         <section class="furniture_section layout_padding">
@@ -112,8 +43,8 @@
                                     </a>
                                 </div>
                                 <div class="price_box">
-                                    <a th:href="@{deleteBook(id=${book.getId()})}"><i class="bi bi-trash3"></i></a>
-                                    <a th:href="@{editBook(id=${book.getId()})}"><i class="bi bi-pencil-square"></i></a>
+                                    <a  th:if="${#authorization.expression('hasRole(''ADMIN'')')}" th:href="@{deleteBook(id=${book.getId()})}"><i class="bi bi-trash3"></i></a>
+                                    <a  th:if="${#authorization.expression('hasRole(''ADMIN'')')}" th:href="@{editBook(id=${book.getId()})}"><i class="bi bi-pencil-square"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -121,7 +52,7 @@
                 </div>
             </div>
         </section>
-        <a href="/addBook" class="btn btn-info">Add a new Book</a>
+        <a th:if="${#authorization.expression('hasRole(''ADMIN'')')}" href="/addBook" class="btn btn-info">Add a new Book</a>
         <div class="container" >
             <ul class="nav nav-pills">
                 <li class="nav-item me-2" th:each="p, stat: ${pages}">
