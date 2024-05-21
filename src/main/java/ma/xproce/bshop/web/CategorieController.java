@@ -79,21 +79,13 @@ public class CategorieController {
         }
     }
     @PostMapping("editCategorie")
-    public String editVCategorieePost(Model model ,@RequestParam(name="id") Integer id, @RequestParam(name="name") String name
-            ,@RequestParam("file") MultipartFile file ) {
+    public String editVCategorieePost(Model model ,@RequestParam(name="id") Integer id, @RequestParam(name="name") String name) {
 
         Categorie categorie = categorieManager.getCategorieId(id);
         categorie.setId(id);
         categorie.setName(name);
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-        if (fileName.contains("..")) {
-            System.out.println("not a a valid file");
-        }
-        try {
-            categorie.setImgP(Base64.getEncoder().encodeToString(file.getBytes()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+
         categorieManager.addCategorie(categorie);
 
 
