@@ -1,6 +1,5 @@
 package ma.xproce.bshop.service;
 
-
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
 

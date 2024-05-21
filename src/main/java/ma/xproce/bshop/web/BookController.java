@@ -1,5 +1,5 @@
 package ma.xproce.bshop.web;
- // Import pour l'annotation @Resource de Jakarta EE
+
 import ma.xproce.bshop.dao.entities.Book;
 import ma.xproce.bshop.dao.entities.Categorie;
 import ma.xproce.bshop.dao.entities.Writer;
@@ -119,6 +119,7 @@ public class BookController {
 
 
 
+
             List<Categorie> selectedCategories = categorieManager.getCategorieById(categories);
             book.setCategories(selectedCategories);
 
@@ -149,17 +150,13 @@ public class BookController {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            // Debugging message to check if file is received
-            logger.info("Received file: {}", file.getOriginalFilename());
 
-            // Upload the file and get the generated file name
             String contentFileName = fileUploadManager.uploadFile(contentFile);
-
-            // Debugging message to check generated file name
-            logger.info("Generated file name: {}", contentFileName);
-
-            // Associate the file name with the book
+            if (contentFileName == null) {
+                return "redirect:/addBook";
+            }
             book.setFilePath(contentFileName);
+
 
             Writer writer1 = new Writer();
             writer1.setName(writer);
@@ -215,7 +212,9 @@ public class BookController {
         }
     }
     @PostMapping("editBook")
-    public String editVBookPost(Model model ,@RequestParam(name="id") Integer id, @RequestParam(name="name") String name
+    public String editVBookPost(Model model ,@RequestParam(name="id") Integer id
+            ,@RequestParam("contentFile") MultipartFile contentFile
+            ,@RequestParam(name="name") String name
             ,@RequestParam(name="description") String description
             , @RequestParam(name="writer") String writer
             ,@RequestParam(name="categories")List<Integer> categories) {
@@ -224,7 +223,13 @@ public class BookController {
         book.setId(id);
         book.setName(name);
         book.setDescription(description);
-        List<Categorie> currentCategories = (List<Categorie>) book.getCategories();
+        String contentFileName = fileUploadManager.uploadFile(contentFile);
+        if (contentFileName == null) {
+            return "redirect:/addBook";
+        }
+        book.setFilePath(contentFileName);
+
+        //List<Categorie> currentCategories = (List<Categorie>) book.getCategories();
 
         List<Categorie> selectedCategories = categorieManager.getCategorieById(categories);
 

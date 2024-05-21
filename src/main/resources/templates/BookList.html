@@ -8,7 +8,54 @@
     <title>BookList</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        .pagination {
+            display: flex;
+            justify-content: center;
+            padding-left: 0;
+            list-style: none;
+            border-radius: 0.25rem;
+        }
 
+        .page-item {
+            margin: 0 5px;
+        }
+
+        .page-link {
+            position: relative;
+            display: block;
+            padding: 10px 20px;
+            margin-left: -1px;
+            line-height: 1.25;
+            color: #007bff;
+            background-color: #fff;
+            border: 1px solid #dee2e6;
+            text-decoration: none;
+            transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+        }
+
+        .page-link:hover {
+            z-index: 2;
+            color: #0056b3;
+            text-decoration: none;
+            background-color: #e9ecef;
+            border-color: #dee2e6;
+        }
+
+        .page-link.active {
+            z-index: 1;
+            color: #fff;
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .page-link:focus {
+            z-index: 3;
+            outline: 0;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+
+    </style>
 </head>
 
 <body>
@@ -52,15 +99,18 @@
                 </div>
             </div>
         </section>
-        <a th:if="${#authorization.expression('hasRole(''ADMIN'')')}" href="/addBook" class="btn btn-info">Add a new Book</a>
-        <div class="container" >
-            <ul class="nav nav-pills">
-                <li class="nav-item me-2" th:each="p, stat: ${pages}">
-                    <a th:class="${stat.index} == ${page} ? 'btn btn-primary' : 'btn btn-outline-primary'"
-                       th:text="${stat.index}" th:href="@{BookList(page=${stat.index},search=${keyword})}"></a>
+        <a th:if="${#authorization.expression('hasRole(''ADMIN'')')}" href="/addBook" class="btn btn-info"  >Add a new Book</a>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                <li class="page-item disabled" th:each="p, stat: ${pages}">
+                    <a th:class="${stat.index} == ${page} ? 'btn btn-info' : 'btn btn-outline-primary'"
+                       th:text="${stat.index}" th:href="@{BookList(page=${stat.index},search=${keyword})}"
+                       ></a>
                 </li>
             </ul>
-        </div>
+        </nav>
+
+
 
         <!-- end book section -->
 

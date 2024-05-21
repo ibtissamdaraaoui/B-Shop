@@ -1,25 +1,47 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+<link href="/css/login.css" rel="stylesheet" />
 <head>
   <meta charset="UTF-8">
   <title>Login page</title>
 </head>
 <body>
-<div th:if="${param.success}">
-  You successfully registered. Please use your credentials to log in.
-</div>
-<div th:if="${param.error}">
-  Login or password incorrect.
-</div>
+<section class="user">
 
-<div th:if="${param.logout}">
-  You've been logged out.
-</div>
-<form th:action="@{/login}" method="post">
-  <input name="username" type="text" placeholder="Username">
-  <input name="password" type="password" placeholder="Password">
-  <input type="submit" value="Log in">
-</form>
-<a href="/">Main page</a>
+  <div class="login-container">
+
+    <form action="" class="form-login" th:action="@{/login}" method="post">
+      <div th:if="${param.logout}">
+        You've been logged out.
+      </div>
+      <div th:if="${param.success}" class="p-3 mb-2 bg-success text-white" >
+        You successfully registered. Please use your credentials to log in.
+      </div>
+      <div th:if="${param.error}" class="p-3 mb-2 bg-danger text-white" >
+        Username or password incorrect.
+      </div>
+
+      <ul class="login-nav">
+        <li class="login-nav__item active">
+          <a href="#">Sign In</a>
+        </li>
+        <li class="login-nav__item">
+          <a href="/registration">Sign Up</a>
+        </li>
+      </ul>
+      <label for="username" class="login__label">
+        Username
+      </label>
+      <input type="text" placeholder="Username" id ="username" class="login__input"  name="username" required  />
+      <label for="password" class="login__label">
+        Password
+      </label>
+      <input id="password" class="login__input"  type="password" placeholder="Password" name="password" required />
+
+      <button class="login__submit" type="submit" >Sign in</button>
+    </form>
+
+  </div>
+</section>
 </body>
 </html>

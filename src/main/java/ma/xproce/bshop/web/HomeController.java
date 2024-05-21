@@ -31,11 +31,14 @@ public class HomeController {
     public String index(Model model) {
         List<Writer> writers =writerManager.getallWriters();
         model.addAttribute("Writers",writers);
-        List<Book> books =bookManager.getBooksById(List.of(59,61,63));
+        List<Book> books =bookManager.getBooksById(List.of(63,64,65));
         model.addAttribute("Books",books);
         List<Categorie> categories = categorieManager.getCategorieById(List.of(25,29,32));
         model.addAttribute("Categ",categories);
+
         return "index";
     }
+
+
 
 }
