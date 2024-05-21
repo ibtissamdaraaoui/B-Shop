@@ -46,13 +46,9 @@
                             </div>
                         </div>
                     </div>
-
-
-
-
-
                 </div>
-            </div><a th:if="${#authorization.expression('hasRole(''ADMIN'')')}" href="/addCategorie" class="btn btn-info">Add a new Categorie</a>
+            </div>
+            <br><br><a th:if="${#authorization.expression('hasRole(''ADMIN'')')}" style="margin-left: 490px" href="/addCategorie" class="btn btn-info">Add a new Categorie</a>
         </section>
 
     </div>

@@ -99,8 +99,8 @@
                 </div>
             </div>
         </section>
-        <a th:if="${#authorization.expression('hasRole(''ADMIN'')')}" href="/addBook" class="btn btn-info"  >Add a new Book</a>
-        <nav aria-label="Page navigation example">
+        <a th:if="${#authorization.expression('hasRole(''ADMIN'')')}" style="margin-left: 490px" href="/addBook" class="btn btn-info"  >Add a new Book</a>
+        <br><br><nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center">
                 <li class="page-item disabled" th:each="p, stat: ${pages}">
                     <a th:class="${stat.index} == ${page} ? 'btn btn-info' : 'btn btn-outline-primary'"
